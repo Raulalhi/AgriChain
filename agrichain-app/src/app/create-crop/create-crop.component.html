@@ -1,0 +1,21 @@
+<mat-card class="mt-20">
+  <mat-card-title>Add new Crop</mat-card-title>
+  <hr>
+  <mat-card-content class="mt-20">
+    <div fxLayout="column" fxLayout.xs ="column" fxLayoutWrap="wrap">
+      <mat-form-field>
+        <textarea matInput placeholder="Enter Crop ID" name="id" [(ngModel)]="id"></textarea>
+      </mat-form-field>
+
+      <mat-form-field >
+        <mat-select matInput placeholder="Enter Farmer" name="farmer" [(ngModel)]="farmerid">
+          <mat-option value = "1">Option 1</mat-option>
+          <mat-option value = "2">Option 2</mat-option>
+          <mat-option value = "3">Option 3</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" ((click)="saveCrop()">Add Crop</button>
+    </div>
+  </mat-card-content>
+</mat-card>

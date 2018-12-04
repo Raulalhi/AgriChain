@@ -1,0 +1,29 @@
+namespace org.agrichain.participants
+
+participant AgriChainNetworkAdmin identified by NetworkAdminID{
+  o String NetworkAdminID
+  o String firstName
+  o String Company
+  o String email1
+}
+
+
+abstract participant AgriChainParticipant identified by participantID {
+  o String participantID
+  o String firstName
+  o String Company
+  o String emailt
+
+}
+
+participant Farmer extends AgriChainParticipant {
+
+}
+
+participant Wholesaler extends AgriChainParticipant {
+
+}
+
+participant Retailer extends AgriChainParticipant {
+
+}

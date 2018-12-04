@@ -1,0 +1,76 @@
+
+
+namespace org.agrichain.crop
+import org.agrichain.participants.AgriChainParticipant
+import org.agrichain.participants.Farmer
+
+asset Crop identified by cropID {
+
+  o String cropID
+  o CropType type
+  o Boolean organic
+  o String seedManufacturer optional
+  o DateTime plantingDate optional
+  o DateTime pickupDate optional
+
+  --> AgriChainParticipant participantID optional
+  --> Farm farm optional
+  --> Treatment[] treatments optional
+}
+
+asset Farm identified by farmID {
+  o String farmID
+  o String location
+  --> Farmer farmerID
+}
+
+asset Product identified by productID {
+  o String productID
+  o String productName
+  o String productmanufacturer
+}
+
+asset Treatment identified by treatmentID {
+
+  o String treatmentID
+  o DateTime treatmentDate
+  o String invoice
+  o Product[] products
+}
+
+asset Irrigation identified by irrigationID{
+  o String irrigationID
+  o DateTime irrigationDate
+  o Double nitrogenKGs
+  o Double phosporousKGs
+  o Double potassiumKGs
+  --> Product[] products
+}
+
+enum CropType {
+  o Cucumber
+  o Watermelon
+  o Tomato
+  o Melon
+  o Courgette
+  o Aubergine
+  o Pepper
+}
+
+asset Packet identified by packetID {
+  o String packetID
+  o DateTime packingDate
+  o String size
+  o DateTime expireDate
+  --> Crop cropID
+}
+
+transaction transferCrops {
+  --> Crop crop
+  --> AgriChainParticipant newOwner
+}
+
+transaction notifyParties {
+ --> Crop crop
+ --> Packet[] packets
+}

@@ -1,0 +1,24 @@
+<mat-card class="mt-20">
+  <mat-card-title>Crops</mat-card-title>
+  <hr>
+  <mat-card-content class="mt-20">
+    <div fxLayout="row" fxLayout.xs ="column" fxLayoutWrap="wrap">
+      <div class="crop-container" fxFlex.gt.xs = "50%" fxFlex.gt-md="25%" *ngFor= "let crop of crops">
+
+        <div>Crop ID: {{crop.cropID}}</div>
+        <div>Crop Type: {{crop.type}}</div>
+        <div>Organic: {{crop.organic}}</div>
+        <div class="action-button">
+          <button mat-raised-button color="primary">Edit</button>
+          <button mat-raised-button color="warn">Delete</button>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<div class="create-crop-fab">
+  <button mat-fab [routerLink]="['/crops/create']">
+    <mat-icon>add circle</mat-icon>
+  </button>
+</div>

@@ -1,0 +1,8 @@
+
+
+query getCropParticipants { 
+  description: "see all of the participants that have worked with a particular crop" 
+  statement: 
+  		SELECT org.agrichain.crop.transferCrops
+  			WHERE (crop == _$crop) 
+}

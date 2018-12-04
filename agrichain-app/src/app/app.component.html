@@ -1,0 +1,18 @@
+
+<mat-toolbar color = "primary">
+  <mat-toolbar-row>
+    <span>AgriChain</span>
+    <span class="ag-spacer"></span>
+    <button mat-button [routerLink]="[ '/crops']"><mat-icon>format_quote</mat-icon>Crops</button>
+    <button mat-button [routerLink]="[ '/farmers']"><mat-icon>person</mat-icon>Farmers</button>
+    <button mat-button [matMenuTriggerFor]= "auth"><mat-icon>more_vert</mat-icon></button>
+    <mat-menu #auth="matMenu">
+      <button mat-menu-item [routerLink]= "['/login']">Login</button>
+      <button mat-menu-item>Logout</button>
+    </mat-menu>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="base-container">
+  <router-outlet></router-outlet>
+</div>
