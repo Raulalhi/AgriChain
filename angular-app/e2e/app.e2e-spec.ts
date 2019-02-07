@@ -31,13 +31,13 @@ describe('Starting tests for angular-app', function() {
     })
   });
 
-  it('network-name should be agrichain@0.0.3',() => {
+  it('network-name should be agrichain@0.0.4',() => {
     element(by.css('.network-name')).getWebElement()
     .then((webElement) => {
       return webElement.getText();
     })
     .then((txt) => {
-      expect(txt).toBe('agrichain@0.0.3.bna');
+      expect(txt).toBe('agrichain@0.0.4.bna');
     });
   });
 

@@ -13,14 +13,21 @@ asset Crop identified by cropID {
   o DateTime plantingDate optional
   o DateTime pickupDate optional
 
-  --> AgriChainParticipant participantID optional
+  --> AgriChainParticipant owner optional
   --> Farm farm optional
   --> Treatment[] treatments optional
+  --> Irrigation[] irrigations optional
 }
 
 asset Farm identified by farmID {
   o String farmID
+  o String nickname optional
   o String location
+  o Double size
+  o String poligono
+  o String parcela
+  o String[] certifications
+
   --> Farmer farmerID
 }
 
@@ -28,6 +35,7 @@ asset Product identified by productID {
   o String productID
   o String productName
   o String productmanufacturer
+  
 }
 
 asset Treatment identified by treatmentID {
@@ -35,16 +43,19 @@ asset Treatment identified by treatmentID {
   o String treatmentID
   o DateTime treatmentDate
   o String invoice
-  o Product[] products
+  o Product[] products optional
+  --> Crop crop
 }
 
 asset Irrigation identified by irrigationID{
   o String irrigationID
   o DateTime irrigationDate
-  o Double nitrogenKGs
-  o Double phosporousKGs
-  o Double potassiumKGs
-  --> Product[] products
+  o Double nitrogenKGs optional
+  o Double phosporousKGs optional
+  o Double potassiumKGs optional
+  --> Product[] products optional
+  
+  --> Crop crop
 }
 
 enum CropType {
@@ -63,6 +74,16 @@ asset Packet identified by packetID {
   o String size
   o DateTime expireDate
   --> Crop cropID
+}
+
+transaction addIrrigation {
+  --> Irrigation irr
+  --> Crop crop
+} 
+
+transaction addTreatment {
+  --> Treatment trt
+  --> Crop crop
 }
 
 transaction transferCrops {

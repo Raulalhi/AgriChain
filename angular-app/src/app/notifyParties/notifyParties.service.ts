@@ -22,7 +22,7 @@ import 'rxjs/Rx';
 @Injectable()
 export class notifyPartiesService {
 
-  private NAMESPACE = 'org.agrichain.crop.notifyParties';
+  private NAMESPACE = 'notifyParties';
 
   constructor(private dataService: DataService<notifyParties>) {
   };

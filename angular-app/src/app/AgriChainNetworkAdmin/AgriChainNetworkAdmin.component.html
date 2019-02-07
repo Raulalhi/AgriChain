@@ -57,9 +57,9 @@
   
               
                 <div class="form-group text-left">
-                  <label for="email">email</label>
+                  <label for="email1">email1</label>
                   
-                    <input formControlName="email" type="text" class="form-control">
+                    <input formControlName="email1" type="text" class="form-control">
                   
                 </div>
               
@@ -119,10 +119,10 @@
               </div>
             
               <div class="form-group text-left">
-                <label for="email">email</label>
+                <label for="email1">email1</label>
   
                 
-                  <input [ngModel]="email"formControlName="email" type="text" class="form-control">
+                  <input [ngModel]="email1"formControlName="email1" type="text" class="form-control">
                 
   
               </div>
@@ -204,7 +204,7 @@
               
                   <th class="info">Company</th>
               
-                  <th class="info">email</th>
+                  <th class="info">email1</th>
               
                 <th class="info-actions">Actions</th>
             </tr>
@@ -219,7 +219,7 @@
               
                   <td class="participant-properties">{{participant.Company}}</td>
               
-                  <td class="participant-properties">{{participant.email}}</td>
+                  <td class="participant-properties">{{participant.email1}}</td>
               
               <td>
                 <button (click)="getForm(participant.NetworkAdminID);" type="button" class="btn btn-update" data-toggle="modal" data-target="#updateParticipantModal">

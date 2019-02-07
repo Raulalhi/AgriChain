@@ -22,7 +22,7 @@ import 'rxjs/Rx';
 @Injectable()
 export class RetailerService {
 
-  private NAMESPACE = 'org.agrichain.participants.Retailer';
+  private NAMESPACE = 'Retailer';
 
   constructor(private dataService: DataService<Retailer>) {
   };

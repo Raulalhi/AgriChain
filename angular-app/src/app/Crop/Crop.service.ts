@@ -22,7 +22,7 @@ import 'rxjs/Rx';
 @Injectable()
 export class CropService {
 
-  private NAMESPACE = 'org.agrichain.crop.Crop';
+  private NAMESPACE = 'Crop';
 
   constructor(private dataService: DataService<Crop>) {
   };

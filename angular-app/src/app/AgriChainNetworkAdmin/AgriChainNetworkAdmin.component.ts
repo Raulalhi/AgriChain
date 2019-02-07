@@ -35,7 +35,7 @@ export class AgriChainNetworkAdminComponent implements OnInit {
   NetworkAdminID = new FormControl('', Validators.required);
   firstName = new FormControl('', Validators.required);
   Company = new FormControl('', Validators.required);
-  email = new FormControl('', Validators.required);
+  email1 = new FormControl('', Validators.required);
 
 
   constructor(public serviceAgriChainNetworkAdmin: AgriChainNetworkAdminService, fb: FormBuilder) {
@@ -43,7 +43,7 @@ export class AgriChainNetworkAdminComponent implements OnInit {
       NetworkAdminID: this.NetworkAdminID,
       firstName: this.firstName,
       Company: this.Company,
-      email: this.email
+      email1: this.email1
     });
   };
 
@@ -103,14 +103,14 @@ export class AgriChainNetworkAdminComponent implements OnInit {
       'NetworkAdminID': this.NetworkAdminID.value,
       'firstName': this.firstName.value,
       'Company': this.Company.value,
-      'email': this.email.value
+      'email1': this.email1.value
     };
 
     this.myForm.setValue({
       'NetworkAdminID': null,
       'firstName': null,
       'Company': null,
-      'email': null
+      'email1': null
     });
 
     return this.serviceAgriChainNetworkAdmin.addParticipant(this.participant)
@@ -121,7 +121,7 @@ export class AgriChainNetworkAdminComponent implements OnInit {
         'NetworkAdminID': null,
         'firstName': null,
         'Company': null,
-        'email': null
+        'email1': null
       });
       this.loadAll(); 
     })
@@ -140,7 +140,7 @@ export class AgriChainNetworkAdminComponent implements OnInit {
       $class: 'org.agrichain.participants.AgriChainNetworkAdmin',
       'firstName': this.firstName.value,
       'Company': this.Company.value,
-      'email': this.email.value
+      'email1': this.email1.value
     };
 
     return this.serviceAgriChainNetworkAdmin.updateParticipant(form.get('NetworkAdminID').value, this.participant)
@@ -194,7 +194,7 @@ export class AgriChainNetworkAdminComponent implements OnInit {
         'NetworkAdminID': null,
         'firstName': null,
         'Company': null,
-        'email': null
+        'email1': null
       };
 
       if (result.NetworkAdminID) {
@@ -215,10 +215,10 @@ export class AgriChainNetworkAdminComponent implements OnInit {
         formObject.Company = null;
       }
 
-      if (result.email) {
-        formObject.email = result.email;
+      if (result.email1) {
+        formObject.email1 = result.email1;
       } else {
-        formObject.email = null;
+        formObject.email1 = null;
       }
 
       this.myForm.setValue(formObject);
@@ -240,7 +240,7 @@ export class AgriChainNetworkAdminComponent implements OnInit {
       'NetworkAdminID': null,
       'firstName': null,
       'Company': null,
-      'email': null
+      'email1': null
     });
   }
 }
