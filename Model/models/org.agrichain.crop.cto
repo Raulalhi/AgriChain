@@ -1,5 +1,4 @@
 
-
 namespace org.agrichain.crop
 import org.agrichain.participants.AgriChainParticipant
 import org.agrichain.participants.Farmer
@@ -17,6 +16,17 @@ asset Crop identified by cropID {
   --> Farm farm optional
   --> Treatment[] treatments optional
   --> Irrigation[] irrigations optional
+}
+
+asset Batch identified by batchID {
+
+  o String batchID
+  o String storage optional
+  o Double weight optional
+  o Double bultos 
+  o DateTime batchDate
+
+  --> Crop crop
 }
 
 asset Farm identified by farmID {
