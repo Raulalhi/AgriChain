@@ -3,6 +3,13 @@
   overflow-y: hidden;
 }
 
+ion-card {
+  display: flex;
+  flex-direction: column;
+  width: 100% !important;
+  margin: 0 !important;
+}
+
 ion-card ion-img {
   max-height: 15vh;
   overflow: hidden;

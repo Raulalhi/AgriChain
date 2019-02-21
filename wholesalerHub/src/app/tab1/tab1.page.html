@@ -29,7 +29,6 @@
             <ion-select #roomSelect (ionChange)="onStorageSelected()">
               <ion-label>Select Room</ion-label>
               <ion-select-option *ngFor="let storage of storages">{{storage}}</ion-select-option>
-              <ion-button>Hit Me!</ion-button>
             </ion-select>
           </ion-item>
         </ion-card-content>
@@ -64,7 +63,6 @@
                 <ion-button>Hit Me!</ion-button>
               </ion-select>
             </ion-item>
-            <ion-button padding margin id="moveBtn" (click)="openSelect(batch)">Move</ion-button>
           </ion-card-content>
         </ion-card>
       </ion-col>

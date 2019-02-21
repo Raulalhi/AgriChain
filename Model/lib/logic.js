@@ -46,3 +46,30 @@ async function addTreatment(addData) {
     let assetRegistry = await getAssetRegistry('org.agrichain.crop.Crop');
     await assetRegistry.update(addData.crop);
 }
+
+/**
+ * Add new Irrigation to a Crop
+ * @param {org.agrichain.crop.processBatch} 
+ * batch - batch to be processed
+ * storage - new storage for the batch
+ * weight - batch's weight
+ * @transaction
+ */
+
+async function processBatch(transferData) {
+
+    transferData.batch.storage = transferData.storage;
+    transferData.batch.weight = transferData.weight;
+
+    let assetRegistry = await getAssetRegistry('org.agrichain.crop.Batch');
+    await assetRegistry.update(transferData.batch);
+
+    //Emit Event
+    let factory = getFactory();
+    let basicEvent = factory.newEvent('org.agrichain.crop', 'batchProcessed');
+    basicEvent.batch = transferData.batch;
+    basicEvent.weight = transferData.weight;
+    basicEvent.crop = transferData.batch.crop;
+    emit(basicEvent);
+
+}

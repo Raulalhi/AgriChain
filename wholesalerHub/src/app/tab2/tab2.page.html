@@ -6,4 +6,81 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content padding>
+
+  <ion-item>
+    Search for Batch: <ion-searchbar animated (ionInput)="onBatchSearched($event)"></ion-searchbar>
+  </ion-item>
+
+  <ion-content padding *ngIf="searchedBatch">
+
+    <ion-card margin>
+      <ion-img src={{searchedBatch.img}}></ion-img>
+      <ion-card-title padding>Batch: {{searchedBatch.batchID}}</ion-card-title>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row nowrap align-items-stretch>
+            <ion-col margin-horizontal size=12>
+              <ion-badge margin-horizontal>Type: {{searchedBatch.crop.type}} </ion-badge>
+              <ion-badge margin-horizontal>Organic: {{searchedBatch.crop.organic?'Yes':'No'}} </ion-badge>
+              <ion-badge margin-horizontal>Weight Total: {{searchedBatch.weight}} Kg </ion-badge>
+              <ion-badge margin-horizontal>Bultos: {{searchedBatch.bultos}} </ion-badge>
+              <ion-badge margin-horizontal>Stored: {{searchedBatch.storage}} </ion-badge>
+              <ion-badge margin-horizontal>Farmer: {{searchedBatch.crop.owner}} </ion-badge>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card margin>
+      <ion-card-title padding>Packing Station</ion-card-title>
+
+      <ion-card-content class="packetForm">
+        <form [formGroup]="newPacketForm">
+          <ion-item margin>
+            <ion-label position="floating">Kilograms per Packet</ion-label>
+            <ion-input required type="number" formControlName="size" (ionChange)="onSizeChange()"></ion-input>
+          </ion-item>
+          <ion-item margin>
+            <ion-label position="floating">Expiration Date</ion-label>
+            <ion-datetime required formControlName="expireDate"></ion-datetime>
+          </ion-item>
+          <ion-item margin>
+            <ion-label position="floating">Total Packets to be Created: {{totalPackets}}</ion-label>
+          </ion-item>
+
+          <ion-button margin [disabled]="(!newPacketForm.valid) || (totalPackets < 1)" padding type="submit" (click)="addPackets(newPacketForm);"
+            block>Create Packets</ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-item>
+      <ion-title>Packets: </ion-title>
+    </ion-item>
+    <ion-row nowrap class="scroll">
+      <ion-col size=12 size-lg=2 size-md=4 size-sm=6 size-xs=12 *ngFor="let packet of packets">
+
+        <ion-card>
+          <ion-card-title padding>{{packet.packetID}}</ion-card-title>
+
+          <ion-card-content>
+            <ion-list>
+              <ion-item-group>
+                <ion-label color="primary">Packed Date:</ion-label>
+                <ion-label>{{packet.packingDate | date:'dd/MM/yyyy HH:mm'}}</ion-label>
+              </ion-item-group>
+              <ion-item-group>
+                <ion-label color="primary">Expiry Date:</ion-label>
+                <ion-label>{{packet.expireDate | date:'dd/MM/yyyy'}}</ion-label>
+              </ion-item-group>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-content>
+
+    </ion-content>
+  </ion-content>

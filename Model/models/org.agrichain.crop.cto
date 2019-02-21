@@ -25,7 +25,9 @@ asset Batch identified by batchID {
   o Double weight optional
   o Double bultos 
   o DateTime batchDate
+  o Boolean used optional
 
+  --> AgriChainParticipant owner
   --> Crop crop
 }
 
@@ -83,7 +85,9 @@ asset Packet identified by packetID {
   o DateTime packingDate
   o String size
   o DateTime expireDate
-  --> Crop cropID
+
+  --> AgriChainParticipant owner
+  --> Batch batchID
 }
 
 transaction addIrrigation {
@@ -104,4 +108,16 @@ transaction transferCrops {
 transaction notifyParties {
  --> Crop crop
  --> Packet[] packets
+}
+
+transaction processBatch {
+  --> Batch batch
+  o String storage
+  o Double weight
+}
+
+event batchProcessed {
+  --> Batch batch
+  --> Crop crop
+  o Double weight
 }

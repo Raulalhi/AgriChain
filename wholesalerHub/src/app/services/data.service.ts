@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { tap, map, catchError } from "rxjs/operators";
 import { Observable, throwError } from "rxjs";
 
@@ -11,11 +11,15 @@ export class DataService {
   loading;
   private apiUrl;
   private key;
+  private apikey;
 
   constructor(private http: HttpClient) {
-    this.apiUrl = "http://localhost:3001/api/";
+    this.apiUrl = "http://127.0.0.1:3001/api/";
     this.key =
       "?access_token=ihNRGaA86C3eMsHmNMrty2N5EZ5zb7KV6BBlKpI076O9oIv6eVANjkdZLzzJMuZp";
+
+    this.apikey =
+      "ihNRGaA86C3eMsHmNMrty2N5EZ5zb7KV6BBlKpI076O9oIv6eVANjkdZLzzJMuZp";
   }
 
   generateUUID() {
@@ -36,6 +40,32 @@ export class DataService {
         console.log(value);
       })
     );
+  }
+
+  callQuery(ext, id) {
+    return this.http
+      .get<any[]>(`${this.apiUrl}${ext}`, {
+        params: new HttpParams().set("batch", id)
+      })
+      .pipe(
+        tap(value => {
+          if (this.loading) {
+            this.loading.dismiss();
+          }
+          console.log(value);
+        })
+      );
+  }
+
+  addAsset(ext: String, asset: any): Observable<Object> {
+    console.log("Entered DataService add");
+    console.log("Add " + ext);
+    console.log("asset", asset);
+
+    return this.http
+      .post(this.apiUrl + ext + this.key, asset)
+      .pipe(map(data => this.extractData))
+      .pipe(catchError(this.handleError));
   }
 
   updateAsset(ext, id, asset) {

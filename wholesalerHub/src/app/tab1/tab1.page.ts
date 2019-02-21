@@ -3,10 +3,12 @@ import {
   NavController,
   IonSelect,
   ToastController,
-  AlertController
+  AlertController,
+  Events
 } from "@ionic/angular";
 import { DataService } from "../services/data.service";
 import { Batch } from "../interfaces/batch";
+import { ShareService } from "../services/share.service";
 
 @Component({
   selector: "app-tab1",
@@ -33,6 +35,7 @@ export class Tab1Page {
   @ViewChild("roomSelect") selectRef: IonSelect;
 
   constructor(
+    public shareService: ShareService,
     public navCtrl: NavController,
     private dataService: DataService,
     private toastController: ToastController,
@@ -41,6 +44,7 @@ export class Tab1Page {
 
   ionViewWillEnter() {
     this.getBatches();
+    this.storages = ["Storage 1", "Storage 2", "Storage 3"];
   }
 
   async presentToast() {
@@ -61,12 +65,15 @@ export class Tab1Page {
 
         this.parseBatch();
         this.getCrops();
+        this.shareService.pushData(this.batches);
 
         this.storages = this.batches
           .map(batch => batch.storage)
           .filter(value => value != "")
           .filter((value, index, self) => self.indexOf(value) === index);
         this.storages.sort();
+
+        this.storages = ["Storage 1", "Storage 2", "Storage 3"];
 
         this.notAllocatedBatches = this.batches.filter(
           batch => batch.storage === ""
@@ -178,24 +185,20 @@ export class Tab1Page {
           handler: data => {
             this.batchToBeMoved.storage = this.selectRef.value;
             this.batchToBeMoved.size = data.weight;
-            this.notAllocatedBatches.pop(this.batchToBeMoved);
+            //this.notAllocatedBatches.pop(this.batchToBeMoved);
             var index = this.notAllocatedBatches.indexOf(this.batchToBeMoved);
             if (index > -1) {
               this.notAllocatedBatches.splice(index, 1);
             }
 
-            var alteredBatch: Batch = {
-              $class: this.batchToBeMoved.$class,
-              batchID: this.batchToBeMoved.batchID,
-              bultos: this.batchToBeMoved.bultos,
-              batchDate: this.batchToBeMoved.batchDate,
-              weight: this.batchToBeMoved.size,
-              storage: this.batchToBeMoved.storage,
-              crop: this.batchToBeMoved.crop.cropID
+            var alteredBatch = {
+              batch: this.batchToBeMoved.batchID,
+              weight: data.weight,
+              storage: this.selectRef.value
             };
 
             this.dataService
-              .updateAsset(this.ext, alteredBatch.batchID, alteredBatch)
+              .addAsset("processBatch", alteredBatch)
               .toPromise()
               .then(() => {
                 this.presentToast();

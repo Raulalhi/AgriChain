@@ -4,9 +4,11 @@ export interface Batch {
   $class: string;
   batchID: string;
   storage: String;
-  weight: Float32Array;
+  weight: number;
   batchDate: Date;
   bultos: String;
+  owner: String;
+  used: Boolean;
   crop;
   img?;
 }

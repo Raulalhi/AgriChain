@@ -6,3 +6,10 @@ query getCropParticipants {
   		SELECT org.agrichain.crop.transferCrops
   			WHERE (crop == _$crop) 
 }
+
+query getPacketsFromBatch {
+  description: "Return all packets from a given batch"
+  statement:
+    SELECT org.agrichain.crop.Packet
+      WHERE (batchID == _$batch)
+} 

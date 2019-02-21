@@ -3,7 +3,7 @@
     "composer": "^0.20.2"
   },
   "name": "agrichain",
-  "version": "0.0.17",
+  "version": "0.0.24",
   "description": "AgriChain, Final Year Project",
   "scripts": {
     "prepublish": "mkdirp ./dist && composer archive create --sourceType dir --sourceName . -a ./dist/agrichain.bna",
