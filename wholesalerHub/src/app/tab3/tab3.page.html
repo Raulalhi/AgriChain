@@ -1,9 +1,88 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Trace
+      Track and Trace
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content padding>
+  <ion-item margin>
+    Trace: <ion-searchbar animated (ionInput)="searchingShipment($event)"></ion-searchbar>
+
+    <ion-button (click)="searchShipment()">Track Shipment</ion-button>
+
+  </ion-item>
+
+  <ion-content>
+    <ion-item margin>
+      <ion-title>ID: {{shipment.shipmentID}}</ion-title>
+    </ion-item>
+    <ion-row>
+
+      <ion-col size=12 size-lg=6 size-md=12 size-sm=12 size-xs=12>
+        <ion-card margin>
+          <ion-card-title padding>Map View:</ion-card-title>
+          <ion-card-content no-padding>
+            <div id="map"></div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size=12 size-lg=6 size-md=12 size-sm=12 size-xs=12>
+        <ion-card margin>
+          <ion-card-title padding>Cold Chain:</ion-card-title>
+          <ion-card-content no-padding>
+            <div class="graph">
+              <canvas #lineCanvas></canvas>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-content>
+
+  <ion-item>
+    <ion-title>Packets: </ion-title>
+  </ion-item>
+  <ion-row nowrap class="scroll">
+    <ion-col size=12 size-lg=2 size-md=4 size-sm=6 size-xs=11 *ngFor="let packet of packets">
+      <ion-card>
+        <ion-img src={{packet.img}}></ion-img>
+        <ion-card-title padding>
+          {{packet.packetID}}
+        </ion-card-title>
+        <ion-card-content>
+          <ion-item-group>
+            <ion-label color="primary">Expire Date:</ion-label>
+            <ion-label>{{packet.packingDate | date:'dd/MM/yyyy HH:mm'}}</ion-label>
+          </ion-item-group>
+          <ion-item-group>
+            <ion-label color="primary">Expire Date:</ion-label>
+            <ion-label>{{packet.expireDate | date:'dd/MM/yyyy HH:mm'}}</ion-label>
+          </ion-item-group>
+          <ion-item>
+            {{packet.size}} Kg
+          </ion-item>
+
+          <ion-button margin>More Information</ion-button>
+        </ion-card-content>
+
+      </ion-card>
+    </ion-col>
+  </ion-row>
+
+
+  <ion-item>
+    <ion-item>
+      <ion-title>Actions</ion-title>
+    </ion-item>
+    <ion-row>
+      <ion-col>
+        <ion-button size="large" expand="block" color="primary">Product Recall</ion-button>
+        <ion-button size="large" expand="block" color="secondary">Revoke Certification</ion-button>
+        <ion-button size="large" expand="block" color="tertiary">Notify Parties</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-item>
+</ion-content>

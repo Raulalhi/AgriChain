@@ -10,8 +10,9 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { DataService } from "./services/data.service";
 import { HttpClientModule } from "@angular/common/http";
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
+import { ServiceWorkerModule } from "@angular/service-worker";
+import { environment } from "../environments/environment";
+import { ChartsModule } from "ng2-charts";
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,7 +22,10 @@ import { environment } from '../environments/environment';
     HttpClientModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ChartsModule,
+    ServiceWorkerModule.register("ngsw-worker.js", {
+      enabled: environment.production
+    })
   ],
   providers: [
     StatusBar,

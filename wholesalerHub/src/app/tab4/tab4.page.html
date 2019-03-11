@@ -1,0 +1,107 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Shipping</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding text-center>
+  <ion-item>
+    <ion-title>Current Shipments: </ion-title>
+  </ion-item>
+  <ion-row nowrap class="scroll">
+    <ion-col size=12 size-lg=2 size-md=4 size-sm=6 size-xs=12 *ngFor="let shipment of shipments">
+
+      <ion-card>
+        <ion-card-title padding>{{shipment.shipmentID}}</ion-card-title>
+
+        <ion-card-content>
+          <ion-list>
+            <ion-item-group>
+              <ion-label color="primary">Shipped Date:</ion-label>
+              <ion-label>{{shipment.shippedDate | date:'dd/MM/yyyy HH:mm'}}</ion-label>
+            </ion-item-group>
+            <ion-item-group>
+              <ion-label color="primary">Status:</ion-label>
+              <ion-label>{{shipment.status}}</ion-label>
+            </ion-item-group>
+            <ion-item-group>
+              <ion-label color="primary">Client: </ion-label>
+              <ion-label>{{shipment.buyer}}</ion-label>
+            </ion-item-group>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+
+
+
+  <ion-card>
+    <ion-card-title padding>Create New Shipment</ion-card-title>
+    <ion-card-content>
+      <form [formGroup]="newShipmentForm">
+        <ion-item margin>
+          <ion-label position="floating">Client:</ion-label>
+          <ion-select formControlName="client">
+            <ion-select-option *ngFor="let client of clients" value="{{client}}">{{client}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <div formArrayName="productLine">
+          <ion-card margin *ngFor="let lines of productsPerShipment; let i = index">
+
+            <div [formGroupName]="i">
+
+              <ion-toolbar>
+                <ion-buttons slot="end" *ngIf="i != 0">
+                  <ion-button (click)="removeProductLine(i)" icon-only>
+                    <ion-icon name="close"></ion-icon>
+                  </ion-button>
+                </ion-buttons>
+              </ion-toolbar>
+
+              <ion-card-title padding-horizontal>Product</ion-card-title>
+
+              <ion-item-divider margin-top></ion-item-divider>
+              <ion-list>
+                <ion-radio-group required formControlName="productType">
+                  <ion-list-header margin>Select one</ion-list-header>
+
+                  <ion-item *ngFor="let product of products" lines="none">
+                    <ion-label>{{product}}</ion-label>
+                    <ion-radio slot="start" value="{{product}}"></ion-radio>
+                  </ion-item>
+                </ion-radio-group>
+              </ion-list>
+
+              <ion-item-divider></ion-item-divider>
+
+              <ion-item margin lines="none">
+                <ion-label>Organic</ion-label>
+                <ion-checkbox slot="start" formControlName="organic" ionChange="toggleCheckbox()"></ion-checkbox>
+              </ion-item>
+
+              <ion-item-divider></ion-item-divider>
+
+              <ion-item margin>
+                <ion-label>Amount (Kgs):</ion-label>
+                <ion-input required type="number" formControlName="amount"></ion-input>
+              </ion-item>
+
+            </div>
+
+          </ion-card>
+        </div>
+
+        <ion-item margin lines="none">
+          <ion-button margin icon-only shape="round" (click)="addProductLine()">
+            <ion-icon name="add"></ion-icon>
+          </ion-button>
+        </ion-item>
+
+        <ion-button margin [disabled]="(!newShipmentForm.valid)" type="submit" (click)="createShipment(newShipmentForm);"
+          block>Create Shipment</ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

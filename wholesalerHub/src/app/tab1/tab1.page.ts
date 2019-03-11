@@ -15,7 +15,7 @@ import { ShareService } from "../services/share.service";
   templateUrl: "tab1.page.html",
   styleUrls: ["tab1.page.scss"]
 })
-export class Tab1Page {
+export class Tab1Page implements OnInit {
   batches: Batch[];
   errorMessage;
   ext: String = "Batch";
@@ -42,7 +42,7 @@ export class Tab1Page {
     public alertController: AlertController
   ) {}
 
-  ionViewWillEnter() {
+  ngOnInit() {
     this.getBatches();
     this.storages = ["Storage 1", "Storage 2", "Storage 3"];
   }
@@ -98,7 +98,6 @@ export class Tab1Page {
       .getData("Crop")
       .toPromise()
       .then(data => {
-        console.log("YOOOOOOO");
         data.forEach(crop => {
           var index2 = crop.owner.indexOf("#") + 1;
           var parsedFarmer = decodeURI(crop.owner.slice(index2));
@@ -183,8 +182,8 @@ export class Tab1Page {
         {
           text: "Ok",
           handler: data => {
-            this.batchToBeMoved.storage = this.selectRef.value;
             this.batchToBeMoved.size = data.weight;
+            this.batchToBeMoved.storage = this.selectRef.value;
             //this.notAllocatedBatches.pop(this.batchToBeMoved);
             var index = this.notAllocatedBatches.indexOf(this.batchToBeMoved);
             if (index > -1) {

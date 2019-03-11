@@ -50,7 +50,7 @@
             <ion-label position="floating">Total Packets to be Created: {{totalPackets}}</ion-label>
           </ion-item>
 
-          <ion-button margin [disabled]="(!newPacketForm.valid) || (totalPackets < 1)" padding type="submit" (click)="addPackets(newPacketForm);"
+          <ion-button margin [disabled]="(!newPacketForm.valid) || (totalPackets < 1 ) " padding type="submit" (click)="addPackets(newPacketForm);"
             block>Create Packets</ion-button>
         </form>
       </ion-card-content>
@@ -75,6 +75,19 @@
                 <ion-label color="primary">Expiry Date:</ion-label>
                 <ion-label>{{packet.expireDate | date:'dd/MM/yyyy'}}</ion-label>
               </ion-item-group>
+              <ion-item-group>
+                <ion-label color="primary">Size:</ion-label>
+                <ion-label>{{packet.size}}Kg</ion-label>
+              </ion-item-group>
+              <ion-item-group>
+                <ion-label color="primary">Organic:</ion-label>
+                <ion-label>{{packet.organic}}</ion-label>
+              </ion-item-group>
+              <ion-item-group>
+                <ion-label color="primary">Used:</ion-label>
+                <ion-label>{{packet.used?'Yes':'No'}}</ion-label>
+              </ion-item-group>
+
             </ion-list>
           </ion-card-content>
         </ion-card>

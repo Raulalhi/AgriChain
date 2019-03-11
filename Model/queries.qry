@@ -12,4 +12,41 @@ query getPacketsFromBatch {
   statement:
     SELECT org.agrichain.crop.Packet
       WHERE (batchID == _$batch)
-} 
+}
+
+query getPacketsFromShipment {
+  description: "Return all packets from a given shipment"
+  statement:
+    SELECT org.agrichain.crop.Packet
+      WHERE (shipment == _$shipment)
+}
+
+query getPacketProvenance {
+  description:"Return Crop and Farm of a Farm"
+  statement:
+    SELECT org.agrichain.crop.Batch
+      WHERE (packets CONTAINS [_$packet])
+}
+
+query getPacketByType {
+  description:"Return packets from a given Crop Type"
+  statement: 
+  	SELECT org.agrichain.crop.Packet
+      WHERE (type == _$type AND used == false AND organic == _$organic)
+}
+
+query getCropFromPacket {
+  description:"Return Crop from a given Packet"
+  statement: 
+  	SELECT org.agrichain.crop.Crop
+      WHERE (batches CONTAINS [_$batch])
+}
+
+query getFarmFromCrop {
+  description:"Return Farm from a given Crop"
+  statement: 
+  	SELECT org.agrichain.crop.Farm
+      WHERE (farmID == [_$farm])
+}
+
+

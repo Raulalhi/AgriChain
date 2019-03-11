@@ -48,7 +48,7 @@ async function addTreatment(addData) {
 }
 
 /**
- * Add new Irrigation to a Crop
+ * Update Batch information once it has been processed by the wholesaler
  * @param {org.agrichain.crop.processBatch} 
  * batch - batch to be processed
  * storage - new storage for the batch
@@ -72,4 +72,82 @@ async function processBatch(transferData) {
     basicEvent.crop = transferData.batch.crop;
     emit(basicEvent);
 
+}
+
+/**
+ * Add new Irrigation to a Crop
+ * @param {org.agrichain.crop.packetsForShipment} data - includes the shipment to be added along with the information of packets to be retrieved
+ * @transaction
+ */
+
+async function packetsForShipment(data) {
+
+    let assetRegistry = await getAssetRegistry('org.agrichain.crop.Packet');
+
+    for (let i = 0; i < data.products.length; i++) {
+        let product = data.products[i];
+        let organic = data.organic[i];
+        let amount = data.quantity[i];
+
+        let packets = await query('getPacketByType', {
+            type: product,
+            organic: organic
+        });
+
+        for (let n = 0; n < packets.length; n++) {
+            let packet = packets[n];
+
+            if (amount > 0) {
+                data.shipment.packets.push(packet);
+                packet.used = true;
+                packet.shipment = data.shipment;
+                amount -= packet.size;
+            }
+            await assetRegistry.update(packet);
+        }
+    }
+    let assetRegistry2 = await getAssetRegistry('org.agrichain.crop.Shipment');
+    await assetRegistry2.add(data.shipment);
+}
+
+
+/**
+ * Add new Irrigation to a Crop
+ * @param {org.agrichain.crop.updatePosition} data - new location for a shipment
+ * @transaction
+ */
+async function updatePosition(data) {
+
+    data.shipment.locations.push(data.location);
+    data.shipment.temperatures.push(data.temperature);
+    let assetRegistry = await getAssetRegistry('org.agrichain.crop.Shipment');
+    await assetRegistry.update(data.shipment);
+
+
+    //Emit Event
+    let factory = getFactory();
+    let newEvent = factory.newEvent('org.agrichain.crop', 'shipmentUpdate');
+    newEvent.shipment = data.shipment;
+    newEvent.location = data.location;
+    newEvent.temperature = data.temperature;
+    emit(newEvent);
+}
+
+/**
+ * Add new Irrigation to a Crop
+ * @param {org.agrichain.crop.updatePackets} data.Packets - Packets to be updated
+ * @transaction
+ */
+
+async function updatePackets(data) {
+
+    const pp = data.packets
+
+    let assetRegistry = await getAssetRegistry('org.agrichain.crop.Packet');
+
+    for (var i = 0; i < pp.length; i++) {
+
+        await assetRegistry.update(pp[i]);
+
+    }
 }

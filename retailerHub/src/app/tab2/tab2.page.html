@@ -1,0 +1,155 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      AgroTrace
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-searchbar animated (ionInput)="searchingPacket($event)"></ion-searchbar>
+    <ion-button (click)="tracePacket()">AgroTrace</ion-button>
+  </ion-item>
+
+  <ion-card margin>
+    <ion-img src="{{packet.img}}"></ion-img>
+    <ion-card-title margin>Packet Information</ion-card-title>
+    <ion-card-content margin padding>
+      <ion-col>
+        <ion-row>
+
+          <ion-item-group padding>
+            <ion-label color="primary">ID:</ion-label>
+            <ion-label>{{packet.packetID}}</ion-label>
+          </ion-item-group>
+          <ion-item-group padding>
+            <ion-label color="primary">Packing Date:</ion-label>
+            <ion-label>{{packet.packingDate | date:'dd/MM/yyyy HH:mm'}}</ion-label>
+          </ion-item-group>
+          <ion-item-group padding>
+            <ion-label color="primary">Expiry Date:</ion-label>
+            <ion-label>{{packet.expireDate | date:'dd/MM/yyyy'}}</ion-label>
+          </ion-item-group>
+          <ion-item-group padding>
+            <ion-label color="primary">Organic:</ion-label>
+            <ion-label>{{packet.organic?'Yes':'No'}}</ion-label>
+          </ion-item-group>
+          <ion-item-group padding>
+            <ion-label color="primary">Shipment:</ion-label>
+            <ion-label>{{packet.shipment}}</ion-label>
+          </ion-item-group>
+          <ion-item-group padding>
+            <ion-label color="primary">Store:</ion-label>
+            <ion-label>{{packet.finalLocation}}</ion-label>
+          </ion-item-group>
+
+        </ion-row>
+      </ion-col>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-item>
+    <ion-title> Other Packets in the Same Shipment:</ion-title>
+  </ion-item>
+  <ion-row nowrap class="scroll">
+    <ion-col size=12 size-lg=2 size-md=4 size-sm=6 size-xs=11 *ngFor="let pack of packetsFromShipment">
+      <ion-card>
+        <ion-card-title padding>
+          {{pack.packetID}}
+        </ion-card-title>
+        <ion-card-content class="otherPackets">
+
+          <ion-item-group>
+            <ion-label color="primary" padding>Packing Date:</ion-label>
+            <ion-label>{{pack.packingDate | date:'dd/MM/yyyy HH:mm'}}</ion-label>
+          </ion-item-group>
+          <ion-item-group>
+            <ion-label color="primary" padding>Expiry Date:</ion-label>
+            <ion-label>{{pack.expireDate | date:'dd/MM/yyyy'}}</ion-label>
+          </ion-item-group>
+          <ion-item-group>
+            <ion-label color="primary" padding>Type: </ion-label>
+            <ion-label>{{pack.type}}</ion-label>
+          </ion-item-group>
+          <ion-item-group>
+            <ion-label color="primary" padding>Organic: </ion-label>
+            <ion-label>{{pack.organic?'Yes':'No'}}</ion-label>
+          </ion-item-group>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+
+  <ion-card>
+    <ion-card-title margin>Provenance</ion-card-title>
+    <ion-card-content no-padding>
+      <ion-row>
+        <ion-col size=12 size-lg=6 size-md=12 size-sm=12 size-xs=12>
+          <ion-card>
+            <ion-card-title padding>Origin</ion-card-title>
+            <ion-card-content no-padding>
+              <div id="map"></div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size=12 size-lg=6 size-md=12 size-sm=12 size-xs=12>
+          <ion-card>
+            <ion-card-title padding>Information</ion-card-title>
+            <ion-card-content no-padding>
+              <ion-item-group>
+                <ion-label color="primary" padding>Farmer:</ion-label>
+              </ion-item-group>
+              <ion-item-group>
+                <ion-label color="primary" padding>Crop:</ion-label>
+              </ion-item-group>
+              <ion-item-group>
+                <ion-label color="primary" padding>Planting Date:</ion-label>
+              </ion-item-group>
+              <ion-item-group>
+                <ion-label color="primary" padding>Seed Manufacturer:</ion-label>
+              </ion-item-group>
+              <ion-item-group>
+                <ion-label color="primary" padding>Pick Up Date:</ion-label>
+              </ion-item-group>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+
+      <ion-item>
+        <ion-title> Treatments:</ion-title>
+      </ion-item>
+      <ion-row nowrap class="scroll">
+        <ion-col size=12 size-lg=2 size-md=4 size-sm=6 size-xs=11>
+          <ion-card>
+            <ion-card-title padding>
+              Treatment Date
+            </ion-card-title>
+            <ion-card-content class="otherPackets">
+
+              <ion-item-group>
+                <ion-label color="primary" padding>Products:</ion-label>
+              </ion-item-group>
+              <ion-item-group>
+                <ion-label color="primary" padding>Invoice:</ion-label>
+              </ion-item-group>
+
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-item>
+    <ion-title>Actions: </ion-title>
+  </ion-item>
+  <ion-row>
+    <ion-col>
+      <ion-button margin color="danger">Product Recall</ion-button>
+      <ion-button margin color="success">Certification Management</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-content>

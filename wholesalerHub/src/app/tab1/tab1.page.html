@@ -12,7 +12,7 @@
     <ion-title>Incoming Batches: </ion-title>
   </ion-item>
   <ion-row nowrap class="scroll">
-    <ion-col size=12 size-lg=2 size-md=4 size-sm=6 size-xs=12 *ngFor="let batch of notAllocatedBatches">
+    <ion-col size=12 size-lg=2 size-md=4 size-sm=6 size-xs=11 *ngFor="let batch of notAllocatedBatches">
       <ion-card>
         <ion-img src={{batch.img}}></ion-img>
         <ion-card-title padding>
@@ -24,7 +24,6 @@
           <ion-item>Bultos: {{batch.bultos}}</ion-item>
 
           <ion-button padding margin id="moveBtn" (click)="openSelect(batch)">Move</ion-button>
-
           <ion-item hidden>
             <ion-select #roomSelect (ionChange)="onStorageSelected()">
               <ion-label>Select Room</ion-label>
@@ -55,17 +54,10 @@
             <ion-item> Farmer: {{batch.crop.owner}}</ion-item>
             <ion-item> Bultos: {{batch.bultos}}</ion-item>
             <ion-item> Amount: {{batch.weight}}Kg</ion-item>
-
-            <ion-item hidden>
-              <ion-select #roomSelect (ionChange)="onStorageSelected()">
-                <ion-label>Select Room</ion-label>
-                <ion-select-option *ngFor="let storage of storages">{{storage}}</ion-select-option>
-                <ion-button>Hit Me!</ion-button>
-              </ion-select>
-            </ion-item>
           </ion-card-content>
         </ion-card>
       </ion-col>
     </ion-row>
   </div>
+
 </ion-content>

@@ -90,7 +90,7 @@ export class Tab2Page {
     var newWeight =
       this.searchedBatch.weight - this.totalPackets * this.size.value;
 
-    if (newWeight > this.size.value) {
+    if (newWeight < this.size.value) {
       this.searchedBatch.weight = 0;
       this.searchedBatch.used = true;
     } else {
@@ -105,24 +105,39 @@ export class Tab2Page {
         packingDate: Date.now(),
         expireDate: this.expireDate.value,
         owner: this.searchedBatch.owner,
-        batchID: this.searchedBatch.batchID
+        organic: this.searchedBatch.crop.organic ? true : false,
+        used: false,
+        type: this.searchedBatch.crop.type,
+        batchID: this.searchedBatch.batchID,
+        finalLocation: ""
       };
 
       this.packetsToBeCreated.push(this.asset);
     }
 
+    var updateBatch = {
+      $class: "org.agrichain.crop.Batch",
+      batchID: this.searchedBatch.batchID,
+      storage: this.searchedBatch.storage,
+      weight: this.searchedBatch.weight,
+      batchDate: this.searchedBatch.batchDate,
+      bultos: this.searchedBatch.bultos,
+      owner: this.searchedBatch.owner,
+      used: this.searchedBatch.used,
+      crop: this.searchedBatch.crop.cropID
+    };
+
     this.dataService
       .addAsset("Packet", this.packetsToBeCreated)
       .toPromise()
       .then(() => {
-        this.presentToast();
-        this.ionViewWillEnter();
+        this.dataService
+          .updateAsset("Batch", this.searchedBatch.batchID, updateBatch)
+          .toPromise()
+          .then(() => {
+            this.presentToast();
+            this.ionViewWillEnter();
+          });
       });
-
-    this.dataService.updateAsset(
-      "Batch",
-      this.searchedBatch.batchID,
-      this.searchedBatch
-    );
   }
 }

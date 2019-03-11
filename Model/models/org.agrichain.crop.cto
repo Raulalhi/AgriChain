@@ -1,7 +1,9 @@
-
 namespace org.agrichain.crop
+
 import org.agrichain.participants.AgriChainParticipant
 import org.agrichain.participants.Farmer
+import org.agrichain.participants.Wholesaler
+import org.agrichain.participants.Retailer
 
 asset Crop identified by cropID {
 
@@ -10,12 +12,13 @@ asset Crop identified by cropID {
   o Boolean organic
   o String seedManufacturer optional
   o DateTime plantingDate optional
-  o DateTime pickupDate optional
+  o DateTime[] pickupDate optional
 
   --> AgriChainParticipant owner optional
   --> Farm farm optional
   --> Treatment[] treatments optional
   --> Irrigation[] irrigations optional
+  --> Batch[] batches optional
 }
 
 asset Batch identified by batchID {
@@ -27,8 +30,37 @@ asset Batch identified by batchID {
   o DateTime batchDate
   o Boolean used optional
 
+  --> Packet[] packets optional
   --> AgriChainParticipant owner
   --> Crop crop
+}
+
+asset Packet identified by packetID {
+  o String packetID
+  o DateTime packingDate
+  o Double size
+  o DateTime expireDate
+  o CropType type
+  o String finalLocation optional
+  o Boolean organic
+  o Boolean used default = false
+
+  --> Shipment shipment optional
+  --> AgriChainParticipant owner
+  --> Batch batchID
+}
+
+asset Shipment identified by shipmentID {
+  o String shipmentID
+  o DateTime shippedDate
+  o DateTime arrivalDate optional
+  o String[] locations optional
+  o Double[] temperatures optional
+  o String status optional
+  --> Packet[] packets optional
+
+  --> Wholesaler seller
+  --> Retailer buyer
 }
 
 asset Farm identified by farmID {
@@ -66,7 +98,7 @@ asset Irrigation identified by irrigationID{
   o Double phosporousKGs optional
   o Double potassiumKGs optional
   --> Product[] products optional
-  
+
   --> Crop crop
 }
 
@@ -80,15 +112,6 @@ enum CropType {
   o Pepper
 }
 
-asset Packet identified by packetID {
-  o String packetID
-  o DateTime packingDate
-  o String size
-  o DateTime expireDate
-
-  --> AgriChainParticipant owner
-  --> Batch batchID
-}
 
 transaction addIrrigation {
   --> Irrigation irr
@@ -116,8 +139,37 @@ transaction processBatch {
   o Double weight
 }
 
+transaction getPacketsFromType {
+  o CropType type
+
+}
+
+transaction packetsForShipment {
+  o Shipment shipment
+  o String[] products
+  o Boolean[] organic
+  o Double[] quantity
+
+}
+
+transaction updatePosition {
+  -->Shipment shipment
+  o String location
+  o Double temperature
+}
+
+transaction updatePackets {
+ o Packet[] packets
+}
+
 event batchProcessed {
   --> Batch batch
   --> Crop crop
   o Double weight
+}
+
+event shipmentUpdate {
+  --> Shipment shipment
+  o String location
+  o Double temperature
 }

@@ -14,7 +14,7 @@ export class DataService {
   private apikey;
 
   constructor(private http: HttpClient) {
-    this.apiUrl = "http://127.0.0.1:3001/api/";
+    this.apiUrl = "http://localhost:3001/api/";
     this.key =
       "?access_token=ihNRGaA86C3eMsHmNMrty2N5EZ5zb7KV6BBlKpI076O9oIv6eVANjkdZLzzJMuZp";
 
@@ -46,6 +46,25 @@ export class DataService {
     return this.http
       .get<any[]>(`${this.apiUrl}${ext}`, {
         params: new HttpParams().set("batch", id)
+      })
+      .pipe(
+        tap(value => {
+          if (this.loading) {
+            this.loading.dismiss();
+          }
+          console.log(value);
+        })
+      );
+  }
+
+  callFunction(ext, asset, prod, org, quant) {
+    console.log(asset);
+    return this.http
+      .post<any[]>(`${this.apiUrl}${ext}`, {
+        shipment: asset,
+        products: prod,
+        organic: org,
+        quantity: quant
       })
       .pipe(
         tap(value => {
