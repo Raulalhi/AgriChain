@@ -1,0 +1,18 @@
+<ion-card>
+  <ion-card-title padding>Product Recall Information</ion-card-title>
+  <ion-card-content>
+    <form [formGroup]="productRecallForm">
+      <ion-item margin>
+        <ion-label position="floating">Enter Packet ID Affected</ion-label>
+        <ion-input required type="text" formControlName="packetID"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Description of the Case</ion-label>
+        <ion-textarea required type="text" formControlName="reason"></ion-textarea>
+      </ion-item>
+
+      <ion-button margin [disabled]="(!productRecallForm.valid) " padding type="submit"
+        (click)="reportCase(productRecallForm);" block>Report</ion-button>
+    </form>
+  </ion-card-content>
+</ion-card>

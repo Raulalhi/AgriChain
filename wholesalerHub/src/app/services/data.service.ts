@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { tap, map, catchError } from "rxjs/operators";
 import { Observable, throwError } from "rxjs";
+import { LoadingController } from "@ionic/angular";
 
 @Injectable({
   providedIn: "root"
@@ -12,8 +13,12 @@ export class DataService {
   private apiUrl;
   private key;
   private apikey;
+  isLoading;
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    public loadingController: LoadingController
+  ) {
     this.apiUrl = "http://localhost:3001/api/";
     this.key =
       "?access_token=ihNRGaA86C3eMsHmNMrty2N5EZ5zb7KV6BBlKpI076O9oIv6eVANjkdZLzzJMuZp";
@@ -29,6 +34,20 @@ export class DataService {
         .toString(36)
         .substr(2, 9)
     );
+  }
+
+  async presentLoading() {
+    this.isLoading = true;
+    const loading = await this.loadingController.create({
+      message: "Please Wait",
+      duration: 2000
+    });
+    await loading.present();
+  }
+
+  async dismissLoadng() {
+    this.isLoading = false;
+    return await this.loadingController.dismiss();
   }
 
   getData(ext) {
@@ -58,7 +77,7 @@ export class DataService {
   }
 
   callFunction(ext, asset, prod, org, quant) {
-    console.log(asset);
+    this.presentLoading();
     return this.http
       .post<any[]>(`${this.apiUrl}${ext}`, {
         shipment: asset,
@@ -77,10 +96,7 @@ export class DataService {
   }
 
   addAsset(ext: String, asset: any): Observable<Object> {
-    console.log("Entered DataService add");
-    console.log("Add " + ext);
-    console.log("asset", asset);
-
+    this.presentLoading();
     return this.http
       .post(this.apiUrl + ext + this.key, asset)
       .pipe(map(data => this.extractData))
@@ -88,11 +104,7 @@ export class DataService {
   }
 
   updateAsset(ext, id, asset) {
-    console.log("Entered DataService put");
-    console.log("Update " + ext);
-    console.log("asset", asset);
-
-    console.log(`${this.apiUrl}${ext}/${id}${this.key}`, asset);
+    this.presentLoading();
     return this.http
       .put(this.apiUrl + ext + "/" + id + this.key, asset)
       .pipe(map(data => this.extractData))

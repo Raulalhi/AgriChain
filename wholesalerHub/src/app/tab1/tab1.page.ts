@@ -61,6 +61,7 @@ export class Tab1Page implements OnInit {
       .getData(this.ext)
       .toPromise()
       .then(data => {
+        this.dataService.dismissLoadng();
         this.batches = JSON.parse(JSON.stringify(data));
 
         this.parseBatch();
@@ -98,6 +99,7 @@ export class Tab1Page implements OnInit {
       .getData("Crop")
       .toPromise()
       .then(data => {
+        this.dataService.dismissLoadng();
         data.forEach(crop => {
           var index2 = crop.owner.indexOf("#") + 1;
           var parsedFarmer = decodeURI(crop.owner.slice(index2));
@@ -184,7 +186,6 @@ export class Tab1Page implements OnInit {
           handler: data => {
             this.batchToBeMoved.size = data.weight;
             this.batchToBeMoved.storage = this.selectRef.value;
-            //this.notAllocatedBatches.pop(this.batchToBeMoved);
             var index = this.notAllocatedBatches.indexOf(this.batchToBeMoved);
             if (index > -1) {
               this.notAllocatedBatches.splice(index, 1);
@@ -200,6 +201,7 @@ export class Tab1Page implements OnInit {
               .addAsset("processBatch", alteredBatch)
               .toPromise()
               .then(() => {
+                this.dataService.dismissLoadng();
                 this.presentToast();
                 this.errorMessage = null;
               })

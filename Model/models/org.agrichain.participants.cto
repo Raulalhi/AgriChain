@@ -27,3 +27,7 @@ participant Wholesaler extends AgriChainParticipant {
 participant Retailer extends AgriChainParticipant {
 
 }
+
+participant Consumer identified by consumerID {
+  o String consumerID
+}

@@ -1,12 +1,42 @@
-
- rule historianAccess{
+rule historianAccess{
   description: "Allow only participants related to the asset to view the history records"
   participant(p): "org.agrichain.participants.AgriChainParticipant"
   operation: READ
   resource(r): "org.hyperledger.composer.system.HistorianRecord"
   condition: (r.participantInvoking.getIdentifier() == p.getIdentifier())
   action: ALLOW
+}
 
+rule farmAccess{
+  description: "Grant business network administrators full access to user resources"
+  participant: "org.agrichain.participants.Farmer"
+  operation: ALL
+  resource: "org.agrichain.crop.Farm"
+  action: ALLOW
+}
+
+rule cropAccess{
+  description: "Grant business network administrators full access to user resources"
+  participant: "org.agrichain.participants.Farmer"
+  operation: ALL
+  resource: "org.agrichain.crop.Crop"
+  action: ALLOW
+}
+
+rule batchAccess{
+  description: "Grant business network administrators full access to user resources"
+  participant: "org.agrichain.participants.Farmer"
+  operation: ALL
+  resource: "org.agrichain.crop.Batch"
+  action: ALLOW
+}
+
+rule batchAccess2{
+  description: "Grant business network administrators full access to user resources"
+  participant: "org.agrichain.participants.Wholesaler"
+  operation: ALL
+  resource: "org.agrichain.crop.Batch"
+  action: ALLOW
 }
 
 rule NetworkAdminUser {

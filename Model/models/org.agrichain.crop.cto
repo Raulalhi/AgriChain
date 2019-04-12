@@ -12,10 +12,10 @@ asset Crop identified by cropID {
   o Boolean organic
   o String seedManufacturer optional
   o DateTime plantingDate optional
-  o DateTime[] pickupDate optional
+  o DateTime pickupDate optional
 
-  --> AgriChainParticipant owner optional
-  --> Farm farm optional
+  --> AgriChainParticipant owner
+  --> Farm farm
   --> Treatment[] treatments optional
   --> Irrigation[] irrigations optional
   --> Batch[] batches optional
@@ -31,7 +31,7 @@ asset Batch identified by batchID {
   o Boolean used optional
 
   --> Packet[] packets optional
-  --> AgriChainParticipant owner
+  --> AgriChainParticipant owner 
   --> Crop crop
 }
 
@@ -161,6 +161,15 @@ transaction updatePosition {
 transaction updatePackets {
  o Packet[] packets
 }
+  
+transaction productRecall {
+  --> Packet packet
+  o String description
+}
+
+transaction foodTraceFunc{
+  -->Packet packet
+}
 
 event batchProcessed {
   --> Batch batch
@@ -172,4 +181,30 @@ event shipmentUpdate {
   --> Shipment shipment
   o String location
   o Double temperature
+}
+  
+  event prodRecallRetailer {
+  --> Packet[] packetsAffected
+  o String reason
+}
+ 
+  event prodRecallWholesaler {
+   --> Packet packetAffected
+  
+  --> Packet[] packetsAffectedShipment
+  --> Packet[] packetsAffectedBatch
+  --> Packet[] packetsAffectedCrop
+  --> Retailer[] customersAffected
+  o String reason
+}
+  
+  event prodRecallFarmer{
+  -->Batch batchAffected
+}
+  
+  event foodTrace{
+  o Packet packet
+  o DateTime pickupDate
+  o Farmer farmer
+  o Farm farm
 }

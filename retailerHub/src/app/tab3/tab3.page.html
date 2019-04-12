@@ -1,9 +1,55 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Tab Three
+      Notifications
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content padding>
+  <ion-row>
+    <ion-col size=12 size-lg=4 size-md=4 size-sm=6 size-xs=12 *ngFor="let ev of events">
+      <ion-card>
+        <ion-card-title>New Product Recall Case</ion-card-title>
+        <ion-card-subtitle>A new product outbreak has been detectedand you might be affected. Please consider to remove
+          the following packets.</ion-card-subtitle>
+        <ion-card-content>
+          <ion-item-group>
+            <ion-label color="primary">Case Description:</ion-label>
+            <ion-label color="primary">{{ev.reason}}</ion-label>
+          </ion-item-group>
+          <ion-item-group>
+            <ion-row nowrap class="scroll">
+              <ion-col size=12 size-lg=2 size-md=4 size-sm=6 size-xs=11
+                *ngFor="let packet of ev.packets;let i = index;">
+                <ion-card>
+                  <ion-card-title padding>
+                    {{packet.packetID}}
+                  </ion-card-title>
+                  <ion-card-content>
+                    <ion-item-group>
+                      <ion-label color="primary">Expire Date:</ion-label>
+                      <ion-label>{{packet.expireDate | date:'dd/MM/yyyy HH:mm'}}</ion-label>
+                    </ion-item-group>
+                    <ion-item-group>
+                      <ion-label color="primary">Size:</ion-label>
+                      <ion-label>{{packet.size}}</ion-label>
+                    </ion-item-group>
+                    <ion-item-group>
+                      <ion-label color="primary">Orgnaic:</ion-label>
+                      <ion-label>{{packet.organic?'Yes':'No'}}</ion-label>
+                    </ion-item-group>
+                    <ion-item-group>
+                      <ion-label color="primary">Store:</ion-label>
+                      <ion-label>{{packet.finalLocation}}</ion-label>
+                    </ion-item-group>
+                  </ion-card-content>
+                </ion-card>
+              </ion-col>
+            </ion-row>
+          </ion-item-group>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-content>

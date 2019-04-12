@@ -70,10 +70,12 @@ export class Tab3Page implements OnInit {
         this.trackingPath.setPath(path);
         this.positions.push(position);
 
-        this.temperatures.push(notification.temperature);
-        this.lineChart.data.labels.push("Position " + this.temperatures.length);
+        this.lineChart.data.labels.push(
+          "Position " + (this.temperatures.length + 1)
+        );
         this.lineChart.data.datasets[0].data.push(notification.temperature);
         this.lineChart.update();
+        this.temperatures.push(notification.temperature);
       }
 
       this.events.push(notification);

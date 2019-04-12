@@ -1,0 +1,20 @@
+ion-card {
+    display: flex;
+    flex-direction: column;
+    height: 95% !important;
+}
+
+#welcome {
+    margin-top: 50%;
+}
+
+ion-item-divider {
+    margin-top: 0px;
+    min-height: 1px !important;
+    max-height: 5px !important;
+}
+
+ion-img {
+    max-height: 15vh;
+    overflow: hidden;
+}

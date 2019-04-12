@@ -40,6 +40,10 @@
             <ion-label>{{packet.shipment}}</ion-label>
           </ion-item-group>
           <ion-item-group padding>
+            <ion-label color="primary">Batch:</ion-label>
+            <ion-label>{{packet.batchID}}</ion-label>
+          </ion-item-group>
+          <ion-item-group padding>
             <ion-label color="primary">Store:</ion-label>
             <ion-label>{{packet.finalLocation}}</ion-label>
           </ion-item-group>
@@ -97,21 +101,26 @@
         <ion-col size=12 size-lg=6 size-md=12 size-sm=12 size-xs=12>
           <ion-card>
             <ion-card-title padding>Information</ion-card-title>
-            <ion-card-content no-padding>
-              <ion-item-group>
-                <ion-label color="primary" padding>Farmer:</ion-label>
+            <ion-card-content no-padding id="information">
+              <ion-item-group padding>
+                <ion-label color="primary">Farmer:</ion-label>
+                <ion-label>{{packetFarm.farmerID}}</ion-label>
               </ion-item-group>
-              <ion-item-group>
-                <ion-label color="primary" padding>Crop:</ion-label>
+              <ion-item-group padding>
+                <ion-label color="primary">Crop:</ion-label>
+                <ion-label>{{packetCrop.cropID}}</ion-label>
               </ion-item-group>
-              <ion-item-group>
-                <ion-label color="primary" padding>Planting Date:</ion-label>
+              <ion-item-group padding>
+                <ion-label color="primary">Planting Date:</ion-label>
+                <ion-label>{{packetCrop.plantingDate | date:'dd/MM/yyyy HH:mm'}}</ion-label>
               </ion-item-group>
-              <ion-item-group>
-                <ion-label color="primary" padding>Seed Manufacturer:</ion-label>
+              <ion-item-group padding>
+                <ion-label color="primary">Seed Manufacturer:</ion-label>
+                <ion-label>{{packetCrop.seedManufacturer}}</ion-label>
               </ion-item-group>
-              <ion-item-group>
-                <ion-label color="primary" padding>Pick Up Date:</ion-label>
+              <ion-item-group padding>
+                <ion-label color="primary">Pick Up Date:</ion-label>
+                <ion-label>{{packetCrop.pickupDate | date:'dd/MM/yyyy HH:mm'}}</ion-label>
               </ion-item-group>
             </ion-card-content>
           </ion-card>
@@ -122,7 +131,7 @@
         <ion-title> Treatments:</ion-title>
       </ion-item>
       <ion-row nowrap class="scroll">
-        <ion-col size=12 size-lg=2 size-md=4 size-sm=6 size-xs=11>
+        <ion-col size=12 size-lg=2 size-md=4 size-sm=6 size-xs=11 *ngFor="let treatments of packetCrop.treatments">
           <ion-card>
             <ion-card-title padding>
               Treatment Date
@@ -131,6 +140,7 @@
 
               <ion-item-group>
                 <ion-label color="primary" padding>Products:</ion-label>
+                <ion-label *ngFor="let product of packetCrop.treatments.product">{{product}}</ion-label>
               </ion-item-group>
               <ion-item-group>
                 <ion-label color="primary" padding>Invoice:</ion-label>
@@ -148,8 +158,19 @@
   </ion-item>
   <ion-row>
     <ion-col>
-      <ion-button margin color="danger">Product Recall</ion-button>
-      <ion-button margin color="success">Certification Management</ion-button>
+      <ion-button margin color="danger" (click)="presentModal()">Product Recall</ion-button>
     </ion-col>
   </ion-row>
+  <ng-component *ngIf="form">
+    <ion-item margin>
+      <ion-label position="floating">Enter Packet ID Affected</ion-label>
+      <ion-input required type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Description of the Case</ion-label>
+      <ion-textarea required type="text"></ion-textarea>
+    </ion-item>
+    <ion-button margin [disabled]="(!productRecallForm.valid) " padding type="submit" (click)="prodCase();" block>Report
+    </ion-button>
+  </ng-component>
 </ion-content>

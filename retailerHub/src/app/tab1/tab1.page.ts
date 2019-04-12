@@ -9,11 +9,22 @@ import { Packet } from "../interfaces/packet";
   styleUrls: ["tab1.page.scss"]
 })
 export class Tab1Page implements OnInit {
-  shipments;
+  shipments = [];
+  arrivedshipments;
   packets;
+  pkts;
   locations;
-  notAllocatedPackets;
+  notAllocatedPackets = [];
+  AllocatedPackets = [];
   packetsToBeAllocated = [];
+
+  imgs = [
+    "assets/aubergine.jpg",
+    "assets/cucumber.jpg",
+    "assets/pepper.jpg",
+    "assets/tomato.jpg",
+    "assets/watermelon.jpg"
+  ];
 
   constructor(
     private dataService: DataService,
@@ -21,30 +32,86 @@ export class Tab1Page implements OnInit {
   ) {}
 
   ngOnInit() {
+    // this.dataService
+    //   .getData("Shipment")
+    //   .toPromise()
+    //   .then(data => {
+    //     var shpmt = data;
+
+    //     shpmt.forEach(el => {
+    //       if (el.status == "In Transit") {
+    //         this.shipments.push(el);
+    //       }
+    //     });
+
+    //     this.shipments.forEach(shipment => {
+    //       shipment.seller = this.parseString(shipment.seller);
+    //     });
+    //   });
+
     this.dataService
-      .getData("Shipment", { where: { status: "In Transit" } })
+      .getData("Shipment")
       .toPromise()
       .then(data => {
-        this.shipments = data;
-
-        this.shipments.forEach(shipment => {
-          shipment.seller = this.parseString(shipment.seller);
+        this.arrivedshipments = data;
+        this.arrivedshipments.forEach(shipment => {
+          if (shipment.status == "Arrived") {
+            this.dataService
+              .callQuery(
+                "/queries/getPacketsFromShipment",
+                "shipment",
+                "resource:org.agrichain.crop.Shipment#" + shipment.shipmentID
+              )
+              .toPromise()
+              .then(data => {
+                this.pkts = data;
+                console.log(this.pkts);
+                this.pkts.forEach(x => {
+                  switch (x.type) {
+                    case "Aubergine":
+                      x.img = this.imgs[0];
+                      break;
+                    case "Cucumber":
+                      x.img = this.imgs[1];
+                      break;
+                    case "Pepper":
+                      x.img = this.imgs[2];
+                      break;
+                    case "Tomato":
+                      x.img = this.imgs[3];
+                      break;
+                    case "Watermelon":
+                      x.img = this.imgs[4];
+                      break;
+                    default:
+                      console.log("NONE");
+                  }
+                  if (x.finalLocation == "") {
+                    this.notAllocatedPackets.push(x);
+                  } else {
+                    this.AllocatedPackets.push(x);
+                  }
+                });
+              });
+          } else {
+            this.parseString(shipment.seller);
+            this.shipments.push(shipment);
+          }
         });
       });
 
-    var filter = { where: { finalLocation: "" } };
-    console.log(filter);
-    this.dataService
-      .getData("Packet", filter)
-      .toPromise()
-      .then(data => {
-        this.notAllocatedPackets = data;
-      });
-
+    // var filter = { where: { finalLocation: "" } };
+    // this.dataService
+    //   .getData("Packet", filter)
+    //   .toPromise()
+    //   .then(data => {
+    //     console.log(data);
+    //     this.notAllocatedPackets = data;
+    //   });
     this.locations = [
+      "Kevin Street Store",
       "Ringsend Store",
-      "Grafton Street Store",
-      "Kevin Street Store"
+      "Grafton Street Store"
     ];
   }
 
@@ -80,25 +147,27 @@ export class Tab1Page implements OnInit {
       .then(res => this.presentToast("Please Allocate New Packets"));
 
     this.dataService
-      .getData("Packet", {
-        where: {
-          shipment:
-            "resource:org.agrichain.crop.Shipment#" + shipment.shipmentID
-        }
-      })
+      .getData("Packet")
       .toPromise()
       .then(data => {
         this.packets = data;
         console.log(this.packets);
+        console.log(shipment.shipmentID);
 
         this.packets.forEach(packet => {
-          this.notAllocatedPackets.push(packet);
+          if (
+            packet.shipment ==
+            "resource:org.agrichain.crop.Shipment#" + shipment.shipmentID
+          ) {
+            console.log("hehe");
+            this.notAllocatedPackets.push(packet);
+          }
         });
       });
   }
 
   filterPackets(store) {
-    return this.notAllocatedPackets.filter(p => p.finalLocation === store);
+    return this.AllocatedPackets.filter(p => p.finalLocation === store);
   }
 
   optionsFn(item) {
@@ -107,10 +176,16 @@ export class Tab1Page implements OnInit {
 
   allocatePacket(packet) {
     this.packetsToBeAllocated.push(packet);
+    this.AllocatedPackets.push(packet);
     console.log(this.packetsToBeAllocated);
+    var index = this.notAllocatedPackets.indexOf(packet);
+    if (index > -1) {
+      this.notAllocatedPackets.splice(index, 1);
+    }
   }
 
   allocatePackets() {
+    this.packetsToBeAllocated.forEach(p => delete p.img);
     this.dataService
       .callFunction("updatePackets", this.packetsToBeAllocated)
       .toPromise()

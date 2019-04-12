@@ -1,0 +1,48 @@
+composer transaction submit -c bob@agrichain -d '{
+  "$class": "org.agrichain.crop.updatePosition",
+  "shipment": "resource:org.agrichain.crop.Shipment#_ao00ss4ze",
+  "location": "53.344624, -6.266917",
+  "temperature": 16
+}'
+
+composer transaction submit -c bob@agrichain -d '{
+  "$class": "org.agrichain.crop.updatePosition",
+  "shipment": "resource:org.agrichain.crop.Shipment#_ao00ss4ze",
+  "location": "53.237334, -6.632664",
+  "temperature": 14
+}'
+
+composer transaction submit -c bob@agrichain -d '{
+  "$class": "org.agrichain.crop.updatePosition",
+  "shipment": "resource:org.agrichain.crop.Shipment#_ao00ss4ze",
+  "location": "53.152478, -6.927398",
+  "temperature": 14.5
+}'
+
+composer transaction submit -c bob@agrichain -d '{
+  "$class": "org.agrichain.crop.updatePosition",
+  "shipment": "resource:org.agrichain.crop.Shipment#_ao00ss4ze",
+  "location": "53.011974, -7.323166",
+  "temperature": 14
+}'
+
+composer transaction submit -c bob@agrichain -d '{
+  "$class": "org.agrichain.crop.updatePosition",
+  "shipment": "resource:org.agrichain.crop.Shipment#_ao00ss4ze",
+  "location": "52.924690, -7.678013",
+  "temperature": 15
+}'
+
+composer transaction submit -c bob@agrichain -d '{
+  "$class": "org.agrichain.crop.updatePosition",
+  "shipment": "resource:org.agrichain.crop.Shipment#_ao00ss4ze",
+  "location": "52.661427, -8.547559",
+  "temperature": 15
+}'
+
+composer transaction submit -c bob@agrichain -d '{
+  "$class": "org.agrichain.crop.updatePosition",
+  "shipment": "resource:org.agrichain.crop.Shipment#_ao00ss4ze",
+  "location": "52.843283, -8.986575",
+  "temperature": 14
+}'

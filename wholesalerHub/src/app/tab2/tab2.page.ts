@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Batch } from "../interfaces/batch";
 import { DataService } from "../services/data.service";
 import { ShareService } from "../services/share.service";
@@ -16,7 +16,7 @@ import { ToastController } from "@ionic/angular";
   templateUrl: "tab2.page.html",
   styleUrls: ["tab2.page.scss"]
 })
-export class Tab2Page {
+export class Tab2Page implements OnInit {
   newPacketForm: FormGroup;
   allBatches: Batch[];
   searchedBatch: Batch;
@@ -42,7 +42,7 @@ export class Tab2Page {
     });
   }
 
-  ionViewWillEnter() {
+  ngOnInit() {
     this.allBatches = this.shareService.getSharedData();
 
     if (!this.allBatches) {
@@ -136,7 +136,7 @@ export class Tab2Page {
           .toPromise()
           .then(() => {
             this.presentToast();
-            this.ionViewWillEnter();
+            this.ngOnInit();
           });
       });
   }

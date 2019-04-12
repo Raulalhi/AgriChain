@@ -10,11 +10,14 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { DataService } from "./services/data.service";
 import { HttpClientModule } from "@angular/common/http";
+import { ProductrecallpagePageModule } from "./pages/productrecallpage/productrecallpage.module";
+import { ProductrecallpagePage } from "./pages/productrecallpage/productrecallpage.page";
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
+    ProductrecallpagePageModule,
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,

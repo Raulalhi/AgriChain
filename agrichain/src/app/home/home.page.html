@@ -1,0 +1,87 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Agrichain
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-searchbar animated (ionInput)="searchingPacket($event)"></ion-searchbar>
+    <ion-button (click)="foodTrace()" shape="round" icon-only>
+      <ion-icon name="search"></ion-icon>
+    </ion-button>
+  </ion-item>
+  <div *ngIf="(traceInfo)">
+    <ion-card>
+      <ion-img src={{traceInfo.img}}></ion-img>
+      <ion-card-title padding>My Food Report</ion-card-title>
+      <ion-card-content>
+        <ion-card>
+          <ion-item-group margin>
+            <ion-label color='primary'>Type</ion-label>
+            <ion-label>{{traceInfo.packet.type}}</ion-label>
+          </ion-item-group>
+          <ion-item-divider></ion-item-divider>
+          <ion-item-group margin>
+            <ion-label color='primary'>Organic</ion-label>
+            <ion-label>{{traceInfo.packet.organic? 'Yes':'No'}}</ion-label>
+          </ion-item-group>
+          <ion-item-divider></ion-item-divider>
+          <ion-item-group margin>
+            <ion-label color='primary'>Store</ion-label>
+            <ion-label>{{traceInfo.packet.finalLocation}}</ion-label>
+          </ion-item-group>
+        </ion-card>
+        <ion-card>
+          <ion-item-divider></ion-item-divider>
+          <ion-item-group margin>
+            <ion-label color='primary'>Expire Date</ion-label>
+            <ion-label>{{traceInfo.packet.expireDate | date:'dd/MM/yyyy'}}</ion-label>
+          </ion-item-group>
+          <ion-item-divider></ion-item-divider>
+          <ion-item-group margin>
+            <ion-label color='primary'>Packing Date</ion-label>
+            <ion-label>{{traceInfo.packet.packingDate | date:'dd/MM/yyyy'}}</ion-label>
+          </ion-item-group>
+          <ion-item-divider></ion-item-divider>
+          <ion-item-group margin>
+            <ion-label color='primary'>Pick Up Date</ion-label>
+            <ion-label>{{traceInfo.pickupDate | date:'dd/MM/yyyy'}}</ion-label>
+          </ion-item-group>
+        </ion-card>
+        <ion-card>
+          <ion-item-divider></ion-item-divider>
+          <ion-item-group margin>
+            <ion-label color='primary'>Your Farmer:</ion-label>
+            <ion-label>{{traceInfo.farmer.firstName}}</ion-label>
+          </ion-item-group>
+          <ion-item-divider></ion-item-divider>
+          <ion-item-group margin>
+            <ion-label color='primary'>Farm Location:</ion-label>
+            <ion-label>{{traceInfo.farm.location}}</ion-label>
+          </ion-item-group>
+          <ion-item-divider></ion-item-divider>
+          <ion-item-group margin>
+            <ion-label color='primary'>Your Food has Travelled</ion-label>
+            <ion-label>{{traceInfo.totalkm}} Km</ion-label>
+          </ion-item-group>
+          <ion-item-divider></ion-item-divider>
+        </ion-card>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  <div *ngIf="!(traceInfo)" id="welcome">
+    <ion-card>
+      <ion-card-title padding>Welcome to Agrichain</ion-card-title>
+      <ion-card-subtitle padding color="primary">Blockchain Powered Food</ion-card-subtitle>
+      <ion-item-divider></ion-item-divider>
+      <ion-card-content padding>
+        <ion-label color="dark"> Just simply enter the code found on the packaging label and get useful information
+          about the packet.
+        </ion-label>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

@@ -65,8 +65,8 @@
 
           <ion-item-group>
             <ion-label color="primary">Store:</ion-label>
-            <ion-select placeholder="Select Store" interface="popover" [(ngModel)]="notAllocatedPackets[i].finalLocation"
-              (ionChange)="allocatePacket(packet);">
+            <ion-select placeholder="Select Store" interface="popover"
+              [(ngModel)]="notAllocatedPackets[i].finalLocation" (ionChange)="allocatePacket(packet);">
               <ion-select-option *ngFor="let location of locations">{{location}}</ion-select-option>
             </ion-select>
           </ion-item-group>
@@ -81,9 +81,7 @@
       <ion-title>{{store}}</ion-title>
     </ion-item>
     <ion-row nowrap class="scroll" *ngIf="store">
-
       <ion-col size=12 size-lg=2 size-md=4 size-sm=6 size-xs=12 *ngFor="let packet of filterPackets(store)">
-
         <ion-card>
           <ion-img src={{packet.img}}></ion-img>
           <ion-card-title padding>
@@ -94,12 +92,10 @@
               <ion-label color="primary">Expire Date:</ion-label>
               <ion-label>{{packet.expireDate | date:'dd/MM/yyyy HH:mm'}}</ion-label>
             </ion-item-group>
-
             <ion-item-group>
               <ion-label color="primary">Size:</ion-label>
               <ion-label>{{packet.size}}</ion-label>
             </ion-item-group>
-
             <ion-item-group>
               <ion-label color="primary">Orgnaic:</ion-label>
               <ion-label>{{packet.organic?'Yes':'No'}}</ion-label>

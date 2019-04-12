@@ -21,7 +21,7 @@
         <ion-card-content>
           <ion-item>ID: {{batch.batchID}}</ion-item>
           <ion-item *ngIf="batch.crop.owner != undefined">Farmer: {{batch.crop.owner}}</ion-item>
-          <ion-item>Bultos: {{batch.bultos}}</ion-item>
+          <ion-item>Units: {{batch.bultos}}</ion-item>
 
           <ion-button padding margin id="moveBtn" (click)="openSelect(batch)">Move</ion-button>
           <ion-item hidden>
@@ -52,7 +52,7 @@
           <ion-card-content>
             <ion-item>ID: <b> {{batch.batchID}} </b></ion-item>
             <ion-item> Farmer: {{batch.crop.owner}}</ion-item>
-            <ion-item> Bultos: {{batch.bultos}}</ion-item>
+            <ion-item> Units: {{batch.bultos}}</ion-item>
             <ion-item> Amount: {{batch.weight}}Kg</ion-item>
           </ion-card-content>
         </ion-card>

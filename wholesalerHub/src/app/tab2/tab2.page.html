@@ -22,9 +22,9 @@
           <ion-row nowrap align-items-stretch>
             <ion-col margin-horizontal size=12>
               <ion-badge margin-horizontal>Type: {{searchedBatch.crop.type}} </ion-badge>
-              <ion-badge margin-horizontal>Organic: {{searchedBatch.crop.organic?'Yes':'No'}} </ion-badge>
+              <ion-badge margin-horizontal>Organic: {{searchedBatch.crop.organic? 'Yes':'No'}} </ion-badge>
               <ion-badge margin-horizontal>Weight Total: {{searchedBatch.weight}} Kg </ion-badge>
-              <ion-badge margin-horizontal>Bultos: {{searchedBatch.bultos}} </ion-badge>
+              <ion-badge margin-horizontal>Units: {{searchedBatch.bultos}} </ion-badge>
               <ion-badge margin-horizontal>Stored: {{searchedBatch.storage}} </ion-badge>
               <ion-badge margin-horizontal>Farmer: {{searchedBatch.crop.owner}} </ion-badge>
             </ion-col>
@@ -50,8 +50,8 @@
             <ion-label position="floating">Total Packets to be Created: {{totalPackets}}</ion-label>
           </ion-item>
 
-          <ion-button margin [disabled]="(!newPacketForm.valid) || (totalPackets < 1 ) " padding type="submit" (click)="addPackets(newPacketForm);"
-            block>Create Packets</ion-button>
+          <ion-button margin [disabled]="(!newPacketForm.valid) || (totalPackets < 1 ) " padding type="submit"
+            (click)="addPackets(newPacketForm);" block>Create Packets</ion-button>
         </form>
       </ion-card-content>
     </ion-card>
@@ -81,7 +81,7 @@
               </ion-item-group>
               <ion-item-group>
                 <ion-label color="primary">Organic:</ion-label>
-                <ion-label>{{packet.organic}}</ion-label>
+                <ion-label>{{packet.organic? 'Yes':'No'}}</ion-label>
               </ion-item-group>
               <ion-item-group>
                 <ion-label color="primary">Used:</ion-label>
